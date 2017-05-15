@@ -18,6 +18,6 @@ public class TextGameObject extends GameObject
     {
         paint.setColor(color);
         paint.setTextSize(size);
-        canvas.drawText(text,x,y,paint);
+        canvas.drawText(text, getX(), getY(),paint);
     }
 }

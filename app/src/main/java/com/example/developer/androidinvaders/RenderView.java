@@ -21,24 +21,25 @@ public class RenderView extends View {
     private final int increment = 500;
     private float maxTimer = increment;
 
+    private Enemy e1;
 
     public RenderView(Context context) {
         super(context);
         startTime = System.nanoTime();
 
         this.context = context;
+        e1 = new Enemy("enemy2.png", context.getAssets(), 2, 1);
 
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         if (GameResources.getInstance().gameObjectList.size() != 0) return;
-
-
     }
 
     public void Update(float deltaTime)
     {
+        e1.update(deltaTime);
         if(timer >= maxTimer)
         {
 
@@ -54,7 +55,7 @@ public class RenderView extends View {
         timer += deltaTime;
 
         Update(deltaTime);
-
+        e1.draw(canvas, paint);
         canvas.drawRGB(200,200,200);
         startTime = System.nanoTime();
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);

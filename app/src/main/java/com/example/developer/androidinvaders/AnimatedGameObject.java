@@ -12,7 +12,7 @@ import java.io.InputStream;
  * Created by developer on 20/03/17.
  */
 
-public class AnimatedGameObject extends GameObject
+public abstract class AnimatedGameObject extends GameObject
 {
     Bitmap anims[];
 
@@ -56,6 +56,10 @@ public class AnimatedGameObject extends GameObject
     }
 
     float startTime =0;
+
+    @Override
+    public abstract void update(float deltaTime);
+
     @Override
     public void draw(Canvas canvas, Paint paint) {
         float elapsedTime = (System.nanoTime()-startTime) / 1000000;
@@ -72,6 +76,6 @@ public class AnimatedGameObject extends GameObject
             }
         }
 
-        canvas.drawBitmap(anims[currentFrame],x,y,paint);
+        canvas.drawBitmap(anims[currentFrame], getX(), getY(),paint);
     }
 }
