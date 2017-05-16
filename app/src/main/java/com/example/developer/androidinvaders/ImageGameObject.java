@@ -49,13 +49,10 @@ public abstract class ImageGameObject extends GameObject {
     @Override
     public void draw(Canvas canvas, Paint paint) {
         matrix.reset();
-<<<<<<< HEAD
+
         matrix.preTranslate(x-(width/2), y - (height /2) );
         matrix.preRotate((float)(angle*180/Math.PI), width/2, height/2);
-=======
-        matrix.preTranslate(getX() - getWidth() /2, getY() - getHeight() /2 );
-        matrix.preRotate((float)(getAngle() *180/Math.PI), getWidth() /2, getHeight() /2);
->>>>>>> deb
+
 
         canvas.drawBitmap(bitmap, matrix, null);
     }
