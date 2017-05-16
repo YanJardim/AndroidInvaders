@@ -15,8 +15,9 @@ import java.io.InputStream;
 
 public class ImageGameObject extends GameObject {
 
-    Bitmap bitmap;
+    public Bitmap bitmap;
     Matrix matrix = new Matrix();
+
 
     public void loadImage(String filename, AssetManager manager){
         try{
@@ -45,7 +46,7 @@ public class ImageGameObject extends GameObject {
     @Override
     public void draw(Canvas canvas, Paint paint) {
         matrix.reset();
-        matrix.preTranslate(x-width/2, y - height /2 );
+        matrix.preTranslate(x-(width/2), y - (height /2) );
         matrix.preRotate((float)(angle*180/Math.PI), width/2, height/2);
 
         canvas.drawBitmap(bitmap, matrix, null);

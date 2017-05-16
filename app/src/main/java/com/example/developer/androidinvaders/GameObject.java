@@ -1,5 +1,6 @@
 package com.example.developer.androidinvaders;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -10,7 +11,7 @@ import android.graphics.Rect;
 
 public class GameObject {
     public float x = 0, y = 0;
-    public float width = 0, height = 0;
+    public int width = 0, height = 0;
     public double angle = 0;
     public String name = "";
     public Rect getBoudingBox(){
@@ -22,6 +23,19 @@ public class GameObject {
     }
     public void draw(Canvas canvas, Paint paint){
 
+    }
+
+    public Bitmap scaleDown(Bitmap realImage, float maxImageSize,
+                                       boolean filter) {
+        float ratio = Math.min(
+                (float) maxImageSize / realImage.getWidth(),
+                (float) maxImageSize / realImage.getHeight());
+        width = Math.round((float) ratio * realImage.getWidth());
+        height = Math.round((float) ratio * realImage.getHeight());
+
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width,
+                height, filter);
+        return newBitmap;
     }
 
 }
