@@ -14,6 +14,11 @@ public class TextGameObject extends GameObject
     String text = "";
 
     @Override
+    public void update(float deltaTime) {
+
+    }
+
+    @Override
     public void draw(Canvas canvas, Paint paint)
     {
         paint.setColor(color);

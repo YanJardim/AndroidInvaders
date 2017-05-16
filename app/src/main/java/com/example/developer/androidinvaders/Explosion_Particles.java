@@ -7,8 +7,8 @@ import android.graphics.Paint;
  * Created by developer on 17/04/17.
  */
 
-public class Explosion_Particles extends GameObject {
-    public static final int ESTADO_VIDA = 0;
+public class Explosion_Particles  {
+    /*public static final int ESTADO_VIDA = 0;
     public static final int ESTADO_MORTA = 1;
 
     Particles[] particles;
@@ -59,5 +59,5 @@ public class Explosion_Particles extends GameObject {
                 }
             }
         }
-    }
+    }*/
 }

@@ -13,7 +13,7 @@ import java.io.InputStream;
  * Created by developer on 03/04/17.
  */
 
-public class ImageGameObject extends GameObject {
+public abstract class ImageGameObject extends GameObject {
 
     Bitmap bitmap;
     Matrix matrix = new Matrix();
@@ -41,6 +41,9 @@ public class ImageGameObject extends GameObject {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public abstract void update(float deltaTime);
 
     @Override
     public void draw(Canvas canvas, Paint paint) {

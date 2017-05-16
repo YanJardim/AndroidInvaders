@@ -9,13 +9,13 @@ import android.graphics.Rect;
  */
 
 public abstract class GameObject {
-    private float x = 0;
-    private float y = 0;
-    private float width = 0;
-    private float height = 0;
-    private double angle = 0;
-    private float speed = 0;
-    private String name = "";
+    protected float x = 0;
+    protected float y = 0;
+    protected float width = 0;
+    protected float height = 0;
+    protected double angle = 0;
+    protected float speed = 0;
+    protected String name = "";
 
     public Rect getBoudingBox(){
         Rect r = new Rect((int)(getX() - getWidth() /2), (int)(getY() - getHeight() /2), (int)(getX() + getWidth() /2), (int)(getY() + getHeight() /2));

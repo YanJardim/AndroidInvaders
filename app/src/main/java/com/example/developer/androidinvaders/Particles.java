@@ -10,7 +10,7 @@ import java.util.Random;
  * Created by developer on 17/04/17.
  */
 
-public class Particles extends GameObject {
+public class Particles {
     public static final int ESTADO_VIDA = 0;
     public static final int ESTADO_MORTA = 1;
 
@@ -27,7 +27,7 @@ public class Particles extends GameObject {
     int cor;
     int alpha,red,green,blue;
 
-    public boolean isVida(){
+    /*public boolean isVida(){
         return estado == ESTADO_VIDA;
     }
     public boolean isMorta(){
@@ -88,5 +88,5 @@ public class Particles extends GameObject {
         canvas.drawRect(getX(), getY(),
                 getX() + getWidth(), getY() + getHeight(),paint);
         paint.reset();
-    }
+    }*/
 }

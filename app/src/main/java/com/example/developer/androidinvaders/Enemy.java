@@ -13,8 +13,10 @@ public class Enemy extends AnimatedGameObject {
 
     private Matrix matrix = new Matrix();
 
-    public Enemy(String filename, AssetManager assetManager,int framesW,int framesH){
+    public Enemy(String filename, AssetManager assetManager,int framesW,int framesH, float x, float y){
         loadAnimation(filename, assetManager, framesW, framesH);
+        this.x = x;
+        this.y = y;
 
     }
     @Override
@@ -22,13 +24,13 @@ public class Enemy extends AnimatedGameObject {
 
     }
 
-    @Override
-    public void draw(Canvas canvas, Paint paint){
+    //@Override
+    /*public void draw(Canvas canvas, Paint paint){
         super.draw(canvas, paint);
         matrix.reset();
 
         matrix.preTranslate(getX() - getWidth() /2, getY() - getHeight() /2);
         matrix.preRotate((float)(getAngle() *180f/(float)Math.PI), getWidth() /2f, getHeight() /2f);
-        canvas.drawBitmap(anims[currentFrame], matrix, paint);
-    }
+        canvas.drawBitmap(bitmap, matrix, paint);
+    }*/
 }

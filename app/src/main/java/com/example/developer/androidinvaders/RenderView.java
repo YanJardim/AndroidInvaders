@@ -21,28 +21,31 @@ public class RenderView extends View {
     private final int increment = 500;
     private float maxTimer = increment;
 
-    private Enemy e1;
-
     public RenderView(Context context) {
         super(context);
         startTime = System.nanoTime();
 
         this.context = context;
-        e1 = new Enemy("enemy2.png", context.getAssets(), 2, 1);
+
 
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         if (GameResources.getInstance().gameObjectList.size() != 0) return;
+
+
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy2.png", context.getAssets(), 2, 1, 100, 100));
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy3.png", context.getAssets(), 2, 1, 300, 100));
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy4.png", context.getAssets(), 2, 1, 500, 100));
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy5.png", context.getAssets(), 2, 1, 700, 100));
     }
 
     public void Update(float deltaTime)
     {
-        e1.update(deltaTime);
+
         if(timer >= maxTimer)
         {
-
             maxTimer += increment;
         }
     }
@@ -53,12 +56,11 @@ public class RenderView extends View {
         super.draw(canvas);
         float deltaTime = (System.nanoTime() - startTime) / 1000000;
         timer += deltaTime;
+        canvas.drawRGB(0,0,0);
 
         Update(deltaTime);
-        e1.draw(canvas, paint);
-        canvas.drawRGB(200,200,200);
-        startTime = System.nanoTime();
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
+        startTime = System.nanoTime();
         invalidate();
     }
 

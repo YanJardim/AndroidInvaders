@@ -16,9 +16,11 @@ public abstract class AnimatedGameObject extends GameObject
 {
     Bitmap anims[];
 
-    int frames;
-    int currentFrame = 0;
-
+    private int frames;
+    private int currentFrame = 0;
+    private float changeFrameTime = 1000;
+    private int currentFrameWidth;
+    private int currentFrameHeight;
     public void loadAnimation(String filename, AssetManager assetManager,int framesW,int framesH)
     {
         try
@@ -33,6 +35,9 @@ public abstract class AnimatedGameObject extends GameObject
             anims = new Bitmap[frames];
             int width = bitmap.getWidth()/framesW;
             int height = bitmap.getHeight()/framesH;
+
+            currentFrameHeight = height;
+            currentFrameWidth = width;
 
             int index = 0;
 
@@ -64,7 +69,7 @@ public abstract class AnimatedGameObject extends GameObject
     public void draw(Canvas canvas, Paint paint) {
         float elapsedTime = (System.nanoTime()-startTime) / 1000000;
 
-        if(elapsedTime > 200)
+        if(elapsedTime > changeFrameTime)
         {
             startTime = System.nanoTime();
 
