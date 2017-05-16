@@ -10,7 +10,7 @@ import java.util.Random;
  * Created by developer on 17/04/17.
  */
 
-public class Particles extends GameObject {
+public class Particles {
     public static final int ESTADO_VIDA = 0;
     public static final int ESTADO_MORTA = 1;
 
@@ -27,20 +27,20 @@ public class Particles extends GameObject {
     int cor;
     int alpha,red,green,blue;
 
-    public boolean isVida(){
+    /*public boolean isVida(){
         return estado == ESTADO_VIDA;
     }
     public boolean isMorta(){
         return estado == ESTADO_MORTA;
     }
     public Particles(float x, float y){
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
 
         estado = ESTADO_VIDA;
         Random r = new Random();
-        width = r.nextInt(TAMANHO_MAXIMO) + 1;
-        height = width;
+        setWidth(r.nextInt(TAMANHO_MAXIMO) + 1);
+        setHeight(getWidth());
 
         tempoDeVida = TEMPO_DE_VIDA;
         idade = 0;
@@ -64,8 +64,8 @@ public class Particles extends GameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
         if(isVida()){
-            x += xv * deltaTime * 0.1;
-            y += yv * deltaTime * 0.1;
+            setX(getX() + xv * deltaTime * 0.1);
+            setY(getY() + yv * deltaTime * 0.1);
 
             alpha -= 2;
             idade++;
@@ -85,8 +85,8 @@ public class Particles extends GameObject {
         super.draw(canvas, paint);
         paint.setColor(cor);
         paint.setAlpha(alpha);
-        canvas.drawRect(x,y,
-                x+width,y+height,paint);
+        canvas.drawRect(getX(), getY(),
+                getX() + getWidth(), getY() + getHeight(),paint);
         paint.reset();
-    }
+    }*/
 }

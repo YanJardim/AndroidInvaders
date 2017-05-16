@@ -13,7 +13,7 @@ import java.io.InputStream;
  * Created by developer on 03/04/17.
  */
 
-public class ImageGameObject extends GameObject {
+public abstract class ImageGameObject extends GameObject {
 
     public Bitmap bitmap;
     Matrix matrix = new Matrix();
@@ -23,8 +23,8 @@ public class ImageGameObject extends GameObject {
         try{
             InputStream inputStream = manager.open(filename);
             bitmap = BitmapFactory.decodeStream(inputStream);
-            width = bitmap.getWidth();
-            height = bitmap.getHeight();
+            setWidth(bitmap.getWidth());
+            setHeight(bitmap.getHeight());
             inputStream.close();
         }catch(Exception e){
             e.printStackTrace();
@@ -35,8 +35,8 @@ public class ImageGameObject extends GameObject {
             InputStream inputStream = manager.open(filename);
             bitmap = BitmapFactory.decodeStream(inputStream);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height);
-            this.width = bitmap.getWidth();
-            this.height = bitmap.getHeight();
+            this.setWidth(bitmap.getWidth());
+            this.setHeight(bitmap.getHeight());
             inputStream.close();
         }catch(Exception e){
             e.printStackTrace();
@@ -44,10 +44,18 @@ public class ImageGameObject extends GameObject {
     }
 
     @Override
+    public abstract void update(float deltaTime);
+
+    @Override
     public void draw(Canvas canvas, Paint paint) {
         matrix.reset();
+<<<<<<< HEAD
         matrix.preTranslate(x-(width/2), y - (height /2) );
         matrix.preRotate((float)(angle*180/Math.PI), width/2, height/2);
+=======
+        matrix.preTranslate(getX() - getWidth() /2, getY() - getHeight() /2 );
+        matrix.preRotate((float)(getAngle() *180/Math.PI), getWidth() /2, getHeight() /2);
+>>>>>>> deb
 
         canvas.drawBitmap(bitmap, matrix, null);
     }

@@ -25,7 +25,6 @@ public class RenderView extends View {
     private Player player;
 
 
-
     public RenderView(Context context) {
         super(context);
         startTime = System.nanoTime();
@@ -35,9 +34,6 @@ public class RenderView extends View {
         inputs();
 
 
-
-
-
     }
 
     @Override
@@ -45,13 +41,17 @@ public class RenderView extends View {
         if (GameResources.getInstance().gameObjectList.size() != 0) return;
         createPlayer(getWidth()/2,getHeight()-50, 150);
 
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy2.png", context.getAssets(), 2, 1, 100, 100));
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy3.png", context.getAssets(), 2, 1, 300, 100));
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy4.png", context.getAssets(), 2, 1, 500, 100));
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy5.png", context.getAssets(), 2, 1, 700, 100));
     }
 
     public void Update(float deltaTime)
     {
+
         if(timer >= maxTimer)
         {
-
             maxTimer += increment;
         }
     }
@@ -108,12 +108,12 @@ public class RenderView extends View {
         super.draw(canvas);
         float deltaTime = (System.nanoTime() - startTime) / 1000000;
         timer += deltaTime;
+        canvas.drawRGB(0,0,0);
 
         Update(deltaTime);
 
-        canvas.drawRGB(0,0,0);
-        startTime = System.nanoTime();
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
+        startTime = System.nanoTime();
         invalidate();
     }
 
