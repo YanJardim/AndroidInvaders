@@ -23,8 +23,7 @@ public class Player extends ImageGameObject
 
     @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
-
+        
         x += move * deltaTime;
 
         if(x > view.getWidth() - width/2)
