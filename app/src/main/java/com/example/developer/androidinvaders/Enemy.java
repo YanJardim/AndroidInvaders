@@ -27,21 +27,27 @@ public class Enemy extends AnimatedGameObject {
     }
     @Override
     public void update(float deltaTime){
+        enemyMovement();
+    }
+
+    public void enemyMovement(){
         timer += deltaTime;
 
         if(timer >= maxTime){
             if(currentIndex <= rangeIndex.getX()){
                 currentIndex ++;
                 x++;
+                y++;
             }
             else if(currentIndex >= rangeIndex.getY()){
                 currentIndex --;
                 x--;
+                y++;
             }
         }
     }
-
-    public bool checkHit(Rect target){
+    
+    public boolean checkHit(Rect target){
         Rect r = new Rect(getX(), getY(), getWidth(), getHeight());
         if(r.contains(target)){
             return true;
