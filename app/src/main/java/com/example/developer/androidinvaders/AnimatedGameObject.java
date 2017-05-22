@@ -33,8 +33,8 @@ public abstract class AnimatedGameObject extends GameObject
             frames = framesW * framesH;
 
             anims = new Bitmap[frames];
-            int width = bitmap.getWidth()/framesW;
-            int height = bitmap.getHeight()/framesH;
+            width = bitmap.getWidth()/framesW;
+            height = bitmap.getHeight()/framesH;
 
             currentFrameHeight = height;
             currentFrameWidth = width;

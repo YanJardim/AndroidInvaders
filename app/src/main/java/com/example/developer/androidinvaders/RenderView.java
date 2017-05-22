@@ -96,9 +96,6 @@ public class RenderView extends View {
     }
 
 
-
-
-
     @Override
     public void draw(Canvas canvas)
     {
@@ -110,6 +107,7 @@ public class RenderView extends View {
         Update(deltaTime);
 
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
+        enemiesController.movementEnemies(deltaTime);
         enemiesController.drawAndUpdate(canvas, paint, deltaTime);
         startTime = System.nanoTime();
         invalidate();

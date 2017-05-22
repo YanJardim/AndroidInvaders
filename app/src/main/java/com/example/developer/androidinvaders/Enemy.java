@@ -17,7 +17,7 @@ public class Enemy extends AnimatedGameObject {
     private Vector2 rangeIndex;
     private int maxIndex, currentIndex;
     private float timer, maxTime;
-    private boolean rightDir;
+    public boolean rightDir;
     private float speed, speedY;
 
     public Enemy(String filename, AssetManager assetManager,int framesW,int framesH, float x, float y){
@@ -41,12 +41,12 @@ public class Enemy extends AnimatedGameObject {
         //enemyMovement(deltaTime);
     }
 
-    public void moveVertical(float deltaTime){
+    public void moveHorizontal(float deltaTime){
         if(rightDir) x+=speed * deltaTime;
-        else x+=speed * deltaTime;
+        else x-=speed * deltaTime;
     }
 
-    public void moveHorizontal(float deltaTime){
+    public void moveVertical(float deltaTime){
         y += speedY * deltaTime;
     }
 
@@ -79,7 +79,12 @@ public class Enemy extends AnimatedGameObject {
             timer = 0;
         }
     }
-    
+
+    public void swapDirection(){
+        if(rightDir) rightDir = false;
+        else if(!rightDir) rightDir = true;
+    }
+
     public boolean checkHit(Rect target){
         Rect r = new Rect((int)getX(), (int)getY(), getWidth(), getHeight());
         if(r.contains(target)){
