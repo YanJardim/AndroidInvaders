@@ -21,8 +21,22 @@ public abstract class GameObject {
 
     public Rect getBoudingBox(){
         Rect r = new Rect((int)(getX() - getWidth() /2), (int)(getY() - getHeight() /2), (int)(getX() + getWidth() /2), (int)(getY() + getHeight() /2));
+
         return r;
     }
+
+
+    public boolean Collision(GameObject other)
+    {
+        if(this.getBoudingBox().intersect(other.getBoudingBox()))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
     public abstract void update(float deltaTime);
     public abstract void draw(Canvas canvas, Paint paint);
 

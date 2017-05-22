@@ -3,6 +3,8 @@ package com.example.developer.androidinvaders;
 import android.content.res.AssetManager;
 import android.view.View;
 
+import java.util.List;
+
 /**
  * Created by developer on 22/05/17.
  */
@@ -22,8 +24,6 @@ public class Projetil extends ImageGameObject
     public void update(float deltaTime)
     {
         y -= speed * deltaTime;
-
-
     }
 
 

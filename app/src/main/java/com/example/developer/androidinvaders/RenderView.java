@@ -60,18 +60,7 @@ public class RenderView extends View {
             createProjetil();
         }
 
-
-        for(int i =0; i< projetilList.size();i++)
-        {
-            if(projetilList.get(i).y < 0)
-            {
-                GameResources.getInstance().gameObjectList.remove(projetilList.get(i));
-
-                projetilList.remove(i);
-            }
-
-
-        }
+        Collisions();
     }
 
     public void inputs()
@@ -128,12 +117,43 @@ public class RenderView extends View {
 
         projetilList.add(projetil);
 
-        GameResources.getInstance().addObject(projetil);
 
+    }
+
+    public void updateAndDrawProjetil(Canvas canvas, Paint paint, float deltaTime)
+    {
+        for(int i =0; i< projetilList.size();i++)
+        {
+            projetilList.get(i).update(deltaTime);
+            projetilList.get(i).draw(canvas,paint);
+
+            if(projetilList.get(i).y < 0)
+            {
+                projetilList.remove(i);
+            }
+
+        }
 
 
     }
 
+    public void Collisions()
+    {
+        for(int i =0; i< projetilList.size();i++)
+        {
+            for(int j =0;j< GameResources.getInstance().gameObjectList.size(); j++)
+            {
+
+                if(j != 0)
+                {
+                    if (projetilList.get(i).Collision(GameResources.getInstance().gameObjectList.get(j))) {
+                        GameResources.getInstance().gameObjectList.remove(j);
+                        projetilList.remove(i);
+                    }
+                }
+            }
+        }
+    }
 
 
     @Override
@@ -145,6 +165,7 @@ public class RenderView extends View {
         canvas.drawRGB(0,0,0);
 
         Update(deltaTime);
+        updateAndDrawProjetil(canvas,paint,deltaTime);
 
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
         startTime = System.nanoTime();
