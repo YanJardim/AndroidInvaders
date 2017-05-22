@@ -12,17 +12,44 @@ import android.graphics.Paint;
 public class Enemy extends AnimatedGameObject {
 
     private Matrix matrix = new Matrix();
-
+    private Vector2 rangeIndex;
+    private int maxIndex, currentIndex;
+    private float timer, maxTime;
     public Enemy(String filename, AssetManager assetManager,int framesW,int framesH, float x, float y){
         loadAnimation(filename, assetManager, framesW, framesH);
         this.x = x;
         this.y = y;
-
+        rangeIndex = new Vector2(-3, 3);
+        currentIndex = 0;
+        maxIndex = 3;
+        timer = 0;
+        maxTime = 1.5f;
     }
     @Override
     public void update(float deltaTime){
+        timer += deltaTime;
 
+        if(timer >= maxTime){
+            if(currentIndex <= rangeIndex.getX()){
+                currentIndex ++;
+                x++;
+            }
+            else if(currentIndex >= rangeIndex.getY()){
+                currentIndex --;
+                x--;
+            }
+        }
     }
+
+    public bool checkHit(Rect target){
+        Rect r = new Rect(getX(), getY(), getWidth(), getHeight());
+        if(r.contains(target)){
+            return true;
+        }
+        return false;
+    }
+
+
 
     //@Override
     /*public void draw(Canvas canvas, Paint paint){
