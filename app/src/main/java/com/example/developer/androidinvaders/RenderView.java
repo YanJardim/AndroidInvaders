@@ -9,6 +9,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -20,10 +22,10 @@ public class RenderView extends View {
     private float startTime = 0;
     private Context context;
     private float timer = 0;
-    private final int increment = 500;
-    private float maxTimer = increment;
+    private final int timeProjetilSpawn = 1000;
+    private float maxTimer = timeProjetilSpawn;
     private Player player;
-
+    public List<Projetil> projetilList = new ArrayList<>();
 
     public RenderView(Context context) {
         super(context);
@@ -45,6 +47,8 @@ public class RenderView extends View {
         GameResources.getInstance().addObject(new Enemy("Sprites/enemy3.png", context.getAssets(), 2, 1, 300, 100));
         GameResources.getInstance().addObject(new Enemy("Sprites/enemy4.png", context.getAssets(), 2, 1, 500, 100));
         GameResources.getInstance().addObject(new Enemy("Sprites/enemy5.png", context.getAssets(), 2, 1, 700, 100));
+
+
     }
 
     public void Update(float deltaTime)
@@ -52,7 +56,21 @@ public class RenderView extends View {
 
         if(timer >= maxTimer)
         {
-            maxTimer += increment;
+            maxTimer += timeProjetilSpawn;
+            createProjetil();
+        }
+
+
+        for(int i =0; i< projetilList.size();i++)
+        {
+            if(projetilList.get(i).y < 0)
+            {
+                GameResources.getInstance().gameObjectList.remove(projetilList.get(i));
+
+                projetilList.remove(i);
+            }
+
+
         }
     }
 
@@ -98,7 +116,23 @@ public class RenderView extends View {
 
     }
 
+    public void createProjetil()
+    {
+        Projetil projetil = new Projetil("Sprites/Projetil.png", context.getAssets(), this);
 
+
+        projetil.bitmap = projetil.scaleDown(projetil.bitmap,50,true);
+        projetil.x = player.x;
+        projetil.y = player.y;
+        projetil.name = "Projetil";
+
+        projetilList.add(projetil);
+
+        GameResources.getInstance().addObject(projetil);
+
+
+
+    }
 
 
 

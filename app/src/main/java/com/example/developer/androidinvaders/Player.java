@@ -11,7 +11,7 @@ import android.view.View;
 public class Player extends ImageGameObject
 {
     public final float speed = 2;
-    public  float move = 0, angle = 0;
+    public  float move = 0;
     private View view;
 
     public Player(String file, AssetManager manager, View view)
