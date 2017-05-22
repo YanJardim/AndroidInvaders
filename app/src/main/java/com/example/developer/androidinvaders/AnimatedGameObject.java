@@ -83,4 +83,13 @@ public abstract class AnimatedGameObject extends GameObject
 
         canvas.drawBitmap(anims[currentFrame], getX(), getY(),paint);
     }
+
+
+    public void scaleAllFrames(float maxImageSize, boolean filter) {
+        if(anims == null) return;
+
+        for(int i = 0; i < anims.length; i++){
+            anims[i] = super.scale(anims[i], maxImageSize, filter);
+        }
+    }
 }

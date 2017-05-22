@@ -3,13 +3,8 @@ package com.example.developer.androidinvaders;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.util.Random;
 
 /**
  * Created by developer on 03/04/17.
@@ -23,7 +18,7 @@ public class RenderView extends View {
     private final int increment = 500;
     private float maxTimer = increment;
     private Player player;
-
+    private EnemiesController enemiesController;
 
     public RenderView(Context context) {
         super(context);
@@ -32,7 +27,7 @@ public class RenderView extends View {
         this.context = context;
 
         inputs();
-
+        enemiesController = new EnemiesController(context, this);
 
     }
 
@@ -41,10 +36,12 @@ public class RenderView extends View {
         if (GameResources.getInstance().gameObjectList.size() != 0) return;
         createPlayer(getWidth()/2,getHeight()-50, 150);
 
-        GameResources.getInstance().addObject(new Enemy("Sprites/enemy2.png", context.getAssets(), 2, 1, 100, 100));
+        enemiesController.initEnemies();
+
+        /*GameResources.getInstance().addObject(new Enemy("Sprites/enemy2.png", context.getAssets(), 2, 1, 100, 100));
         GameResources.getInstance().addObject(new Enemy("Sprites/enemy3.png", context.getAssets(), 2, 1, 300, 100));
         GameResources.getInstance().addObject(new Enemy("Sprites/enemy4.png", context.getAssets(), 2, 1, 500, 100));
-        GameResources.getInstance().addObject(new Enemy("Sprites/enemy5.png", context.getAssets(), 2, 1, 700, 100));
+        GameResources.getInstance().addObject(new Enemy("Sprites/enemy5.png", context.getAssets(), 2, 1, 700, 100));*/
     }
 
     public void Update(float deltaTime)
@@ -89,7 +86,7 @@ public class RenderView extends View {
     {
         Player spaceShip = new Player("Sprites/player.png",context.getAssets(),this);
 
-        spaceShip.bitmap = spaceShip.scaleDown(spaceShip.bitmap,scale,true);
+        spaceShip.bitmap = spaceShip.scale(spaceShip.bitmap,scale,true);
         spaceShip.x = x;
         spaceShip.y = y;
         spaceShip.name = "SpaceShip";
@@ -113,6 +110,7 @@ public class RenderView extends View {
         Update(deltaTime);
 
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
+        enemiesController.drawAndUpdate(canvas, paint, deltaTime);
         startTime = System.nanoTime();
         invalidate();
     }
