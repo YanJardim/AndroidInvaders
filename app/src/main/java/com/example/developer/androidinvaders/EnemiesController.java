@@ -20,7 +20,7 @@ public class EnemiesController {
     private Vector2 padding;
     private Vector2 enemySize;
     private float timer, changeDirTime;
-    private final int offsetX = 100, offsetY = 150, changeDirOffest = 70;
+    private final int offsetX = 100, changeDirOffest = 70;
     private boolean canChangeDir, changed;
     public EnemiesController(Context context, View view){
         enemies = new ArrayList<Enemy>();
@@ -42,9 +42,7 @@ public class EnemiesController {
         for(int i = 0; i < 3; i++){
             for (int j = 0; j < 5; j++) {
                 //enemies.add(new Enemy("enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, i * 100 + padding.getX(), j * 100 + padding.getY()));
-                enemies.add(new Enemy("Sprites/enemy" + (j + 2) + ".png", context.getAssets(), 2, 1,
-                        ((i * enemySize.getX()) + (i * padding.getX())) + offsetX ,
-                        ((j * enemySize.getY()) + (i * padding.getY())) + offsetY));
+                enemies.add(new Enemy("Sprites/enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, ((i * enemySize.getX()) + (i * padding.getX())) + offsetX , (j * enemySize.getY()) + (i * padding.getY())));
             }
         }
         //enemies.add(new Enemy("Sprites/enemy2.png", context.getAssets(), 2, 1, 100, 200));
