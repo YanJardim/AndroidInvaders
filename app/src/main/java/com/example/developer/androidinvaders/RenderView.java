@@ -2,6 +2,7 @@ package com.example.developer.androidinvaders;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
@@ -26,6 +27,8 @@ public class RenderView extends View {
     private float maxTimer = timeProjetilSpawn;
     private Player player;
     public List<Projetil> projetilList = new ArrayList<>();
+    private TextGameObject textScore;
+    public int score = 0;
 
     public RenderView(Context context) {
         super(context);
@@ -35,6 +38,14 @@ public class RenderView extends View {
 
         inputs();
 
+        textScore = new TextGameObject();
+
+        textScore.color = Color.YELLOW;
+        textScore.size = 50;
+        textScore.x = 50;
+        textScore.y = 50;
+
+        //GameResources.getInstance().addObject(textScore);
 
     }
 
@@ -59,6 +70,8 @@ public class RenderView extends View {
             maxTimer += timeProjetilSpawn;
             createProjetil();
         }
+
+        textScore.text = "Score: " + score;
 
         Collisions();
     }
@@ -144,11 +157,13 @@ public class RenderView extends View {
             for(int j =0;j< GameResources.getInstance().gameObjectList.size(); j++)
             {
 
+
                 if(j != 0)
                 {
                     if (projetilList.get(i).Collision(GameResources.getInstance().gameObjectList.get(j))) {
                         GameResources.getInstance().gameObjectList.remove(j);
                         projetilList.remove(i);
+                        score++;
                     }
                 }
             }
@@ -166,6 +181,9 @@ public class RenderView extends View {
 
         Update(deltaTime);
         updateAndDrawProjetil(canvas,paint,deltaTime);
+
+        textScore.update(deltaTime);
+        textScore.draw(canvas,paint);
 
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
         startTime = System.nanoTime();
