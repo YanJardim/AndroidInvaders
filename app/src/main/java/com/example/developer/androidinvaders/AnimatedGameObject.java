@@ -33,8 +33,10 @@ public abstract class AnimatedGameObject extends GameObject
             frames = framesW * framesH;
 
             anims = new Bitmap[frames];
+
             this.width = bitmap.getWidth()/framesW;
             this.height = bitmap.getHeight()/framesH;
+
 
             currentFrameHeight = height;
             currentFrameWidth = width;
@@ -82,5 +84,14 @@ public abstract class AnimatedGameObject extends GameObject
         }
 
         canvas.drawBitmap(anims[currentFrame], getX(), getY(),paint);
+    }
+
+
+    public void scaleAllFrames(float maxImageSize, boolean filter) {
+        if(anims == null) return;
+
+        for(int i = 0; i < anims.length; i++){
+            anims[i] = super.scale(anims[i], maxImageSize, filter);
+        }
     }
 }

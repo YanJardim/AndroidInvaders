@@ -54,8 +54,8 @@ public abstract class GameObject {
     }
 
 
-    public Bitmap scaleDown(Bitmap realImage, float maxImageSize,
-                                       boolean filter) {
+    public Bitmap scale(Bitmap realImage, float maxImageSize,
+                        boolean filter) {
         float ratio = Math.min(
                 (float) maxImageSize / realImage.getWidth(),
                 (float) maxImageSize / realImage.getHeight());
