@@ -2,6 +2,7 @@ package com.example.developer.androidinvaders;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -19,12 +20,21 @@ public abstract class GameObject {
     protected float speed = 0;
     protected String name = "";
 
-    public Rect getBoudingBox(){
-        Rect r = new Rect((int)(getX() - getWidth() /2), (int)(getY() - getHeight() /2), (int)(getX() + getWidth() /2), (int)(getY() + getHeight() /2));
+    public Rect getBoudingBox()
+    {
+        Rect r = new Rect((int)(getX()), (int)(getY()), (int)(getX() + getWidth()), (int)(getY() + getHeight()));
 
         return r;
     }
 
+    public void drawRect(Canvas canvas, Paint paint)
+    {
+        paint.setColor(Color.GREEN);
+        paint.setStrokeWidth(3);
+        paint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(getBoudingBox(),paint);
+
+    }
 
     public boolean Collision(GameObject other)
     {

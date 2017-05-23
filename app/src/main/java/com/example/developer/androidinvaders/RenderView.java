@@ -70,6 +70,7 @@ public class RenderView extends View {
 
         textScore.text = "Score: " + score;
 
+
         Collisions();
     }
 
@@ -158,6 +159,7 @@ public class RenderView extends View {
                     enemiesController.enemies.remove(j);
                     projetilList.remove(i);
                     score++;
+                    return;
                 }
 
             }
@@ -182,6 +184,11 @@ public class RenderView extends View {
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
         enemiesController.movementEnemies(deltaTime);
         enemiesController.drawAndUpdate(canvas, paint, deltaTime);
+
+        for(int i =0;i< enemiesController.enemies.size();i++)
+        {
+            enemiesController.enemies.get(i).drawRect(canvas,paint);
+        }
         startTime = System.nanoTime();
         invalidate();
     }
