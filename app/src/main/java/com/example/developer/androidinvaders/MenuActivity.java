@@ -1,9 +1,11 @@
 package com.example.developer.androidinvaders;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -15,6 +17,11 @@ public class MenuActivity extends AppCompatActivity {
         decor.setSystemUiVisibility(full);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_menu);
+
+        TextView txtTitle =(TextView)findViewById(R.id.txtTitle);
+        Typeface face= Typeface.createFromAsset(getAssets(), "fonts/Enigma.ttf");
+        txtTitle.setTypeface(face);
+
     }
 
     public void startGame(View view)
