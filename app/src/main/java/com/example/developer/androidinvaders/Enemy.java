@@ -6,6 +6,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.provider.Settings;
+import android.view.View;
 
 /**
  * Created by developer on 15/05/17.
@@ -20,7 +21,7 @@ public class Enemy extends AnimatedGameObject {
     public boolean rightDir;
     private float speed, speedY;
 
-    public Enemy(String filename, AssetManager assetManager,int framesW,int framesH, float x, float y){
+    public Enemy(String filename, AssetManager assetManager,int framesW,int framesH, float x, float y, View view){
         loadAnimation(filename, assetManager, framesW, framesH);
         this.x = x;
         this.y = y;
@@ -30,7 +31,10 @@ public class Enemy extends AnimatedGameObject {
         timer = 0;
         maxTime = 0.1f;
         rightDir = true;
-        scaleAllFrames(100, true);
+
+        float ratio = ScreenUtils.getScaleRelativeByScreen(view.getWidth(), view.getHeight(), 0.1f);
+
+        scaleAllFrames(ratio, true);
         speed = 2;
         speedY = 10;
 
@@ -48,36 +52,6 @@ public class Enemy extends AnimatedGameObject {
 
     public void moveVertical(float deltaTime){
         y += speedY * deltaTime;
-    }
-
-    public void enemyMovement(float deltaTime){
-        timer += deltaTime / 1000;
-
-        if(timer >= maxTime){
-            //System.out.println(currentIndex);
-
-            if(currentIndex <= rangeIndex.getX()){
-                rightDir = false;
-                y += speedY * deltaTime;
-
-            }
-            else if(currentIndex >= rangeIndex.getY()){
-                rightDir = true;
-                y +=speedY * deltaTime;
-            }
-            if(rightDir){
-                currentIndex --;
-                x -= speed * deltaTime;
-
-            }
-            else{
-                currentIndex ++;
-                x+=speed * deltaTime;
-
-            }
-
-            timer = 0;
-        }
     }
 
     public void swapDirection(){

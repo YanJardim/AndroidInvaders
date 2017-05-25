@@ -107,21 +107,21 @@ public class RenderView extends View {
     {
         Player spaceShip = new Player("Sprites/player.png",context.getAssets(),this);
 
-        spaceShip.bitmap = spaceShip.scale(spaceShip.bitmap,scale,true);
+        spaceShip.bitmap = spaceShip.scale(spaceShip.bitmap,
+                ScreenUtils.getScaleRelativeByScreen(getWidth(), getHeight(), 0.15f), true);
         spaceShip.x = x;
         spaceShip.y = y;
         spaceShip.name = "SpaceShip";
         player = spaceShip;
         GameResources.getInstance().addObject(spaceShip);
-
     }
 
     public void createProjetil()
     {
         Projetil projetil = new Projetil("Sprites/Projetil.png", context.getAssets(), this);
 
-
-        projetil.bitmap = projetil.scale(projetil.bitmap,50,true);
+        float ratio = ScreenUtils.getScaleRelativeByScreen(getWidth(), getHeight(), 0.025f);
+        projetil.bitmap = projetil.scale(projetil.bitmap,ratio,true);
         projetil.x = player.x;
         projetil.y = player.y;
         projetil.name = "Projetil";
@@ -182,7 +182,7 @@ public class RenderView extends View {
         textScore.draw(canvas,paint);
 
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
-        enemiesController.movementEnemies(deltaTime);
+        //enemiesController.movementEnemies(deltaTime);
         enemiesController.drawAndUpdate(canvas, paint, deltaTime);
 
         for(int i =0;i< enemiesController.enemies.size();i++)
@@ -192,5 +192,7 @@ public class RenderView extends View {
         startTime = System.nanoTime();
         invalidate();
     }
+
+
 
 }

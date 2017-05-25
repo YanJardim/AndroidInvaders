@@ -42,7 +42,7 @@ public class EnemiesController {
         for(int i = 0; i < 3; i++){
             for (int j = 0; j < 5; j++) {
                 //enemies.add(new Enemy("enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, i * 100 + padding.getX(), j * 100 + padding.getY()));
-                enemies.add(new Enemy("Sprites/enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, ((i * enemySize.getX()) + (i * padding.getX())) + offsetX , (j * enemySize.getY()) + (i * padding.getY())));
+                enemies.add(new Enemy("Sprites/enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, ((i * enemySize.getX()) + (i * padding.getX())) + offsetX , (j * enemySize.getY()) + (i * padding.getY()), view));
             }
         }
         //enemies.add(new Enemy("Sprites/enemy2.png", context.getAssets(), 2, 1, 100, 200));
@@ -76,9 +76,7 @@ public class EnemiesController {
 
                         break;
                     }
-
                 }
-
             }
 
             for (int i = 0; i < enemies.size(); i++) {
@@ -86,8 +84,6 @@ public class EnemiesController {
                 //System.out.println(enemies.get(i).getX());
             }
             timer = 0;
-
-
         }
     }
 
