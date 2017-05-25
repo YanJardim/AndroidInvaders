@@ -28,7 +28,7 @@ public class RenderView extends View {
     public int score = 0;
 
     private EnemiesController enemiesController;
-
+    private List<Explosion> explosions = new ArrayList<>();
     public RenderView(Context context) {
         super(context);
         startTime = System.nanoTime();
@@ -127,8 +127,9 @@ public class RenderView extends View {
         projetil.name = "Projetil";
 
         projetilList.add(projetil);
-
-
+    }
+    public void createExplosion(float x, float y){
+        explosions.add(new Explosion(10, x, y));
     }
 
     public void updateAndDrawProjetil(Canvas canvas, Paint paint, float deltaTime)
@@ -142,10 +143,20 @@ public class RenderView extends View {
             {
                 projetilList.remove(i);
             }
-
         }
+    }
+    public void updateAndDrawExplosions(Canvas canvas, Paint paint, float deltaTime)
+    {
+        for(int i =0; i< explosions.size();i++)
+        {
+            explosions.get(i).update(deltaTime);
+            explosions.get(i).draw(canvas,paint);
 
-
+            if(explosions.get(i).isDead())
+            {
+                explosions.remove(i);
+            }
+        }
     }
 
     public void Collisions()
@@ -154,10 +165,12 @@ public class RenderView extends View {
         {
             for(int j =0;j< enemiesController.enemies.size(); j++)
             {
-
                 if (projetilList.get(i).Collision(enemiesController.enemies.get(j))) {
+                    createExplosion(enemiesController.enemies.get(j).getX(), enemiesController.enemies.get(j).getY());
+                    System.out.println(enemiesController.enemies.get(i).getX() + "," + enemiesController.enemies.get(i).getY());
                     enemiesController.enemies.remove(j);
                     projetilList.remove(i);
+
                     score++;
                     return;
                 }
@@ -184,15 +197,19 @@ public class RenderView extends View {
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
         //enemiesController.movementEnemies(deltaTime);
         enemiesController.drawAndUpdate(canvas, paint, deltaTime);
+        updateAndDrawExplosions(canvas, paint, deltaTime);
 
-        for(int i =0;i< enemiesController.enemies.size();i++)
-        {
-            enemiesController.enemies.get(i).drawRect(canvas,paint);
-        }
+        //showColliders(canvas, paint);
+
         startTime = System.nanoTime();
         invalidate();
     }
 
-
+    public void showColliders(Canvas canvas, Paint paint){
+        for(int i =0;i< enemiesController.enemies.size();i++)
+        {
+            enemiesController.enemies.get(i).drawRect(canvas,paint);
+        }
+    }
 
 }

@@ -10,7 +10,7 @@ import android.view.View;
 
 public class Player extends ImageGameObject
 {
-    public final float speed = 2;
+    public final float speed = 0.5f;
     public  float move = 0;
     private View view;
 
