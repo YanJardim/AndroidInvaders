@@ -10,9 +10,9 @@ public class Particle extends GameObject{
     public static final int ESTADO_VIDA = 0;
     public static final int ESTADO_MORTA = 1;
 
-    public static final int TEMPO_DE_VIDA = 20;
+    public static final int TEMPO_DE_VIDA = 2;
     public static final int TAMANHO_MAXIMO = 15;
-    public static final int VELOCIDADE_MAXIMA = 2;
+    public static final int VELOCIDADE_MAXIMA = 7;
 
     int estado;
 
@@ -41,12 +41,9 @@ public class Particle extends GameObject{
         tempoDeVida = TEMPO_DE_VIDA;
         idade = 0;
         alpha = 255;
-        red = r.nextInt(255);
-        green = r.nextInt(255);
-        blue = r.nextInt(255);
 
-        cor = Color.argb(alpha,red,
-                red,red);
+        cor = Color.argb(alpha,255,
+                255,255);
 
 
         xv = r.nextFloat()* VELOCIDADE_MAXIMA *2-
@@ -62,8 +59,11 @@ public class Particle extends GameObject{
             setX(getX() + xv * deltaTime * 0.1f);
             setY(getY() + yv * deltaTime * 0.1f);
 
-            alpha -= 2;
-            idade++;
+
+            alpha -= ((float)TEMPO_DE_VIDA / 10)* deltaTime;
+
+
+            idade += deltaTime / 1000;
             if(idade >= tempoDeVida ||
                     alpha <= 0){
                 estado = ESTADO_MORTA;

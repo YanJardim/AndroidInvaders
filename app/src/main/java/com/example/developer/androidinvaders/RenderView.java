@@ -26,6 +26,7 @@ public class RenderView extends View {
     public List<Projetil> projetilList = new ArrayList<>();
     private TextGameObject textScore;
     public int score = 0;
+    public int highPublic = 0;
 
     private EnemiesController enemiesController;
     private List<Explosion> explosions = new ArrayList<>();
@@ -69,6 +70,14 @@ public class RenderView extends View {
         }
 
         textScore.text = "Score: " + score;
+
+        for(int i =0; i<explosions.size();i++)
+        {
+            if(explosions.get(i).isDead())
+            {
+                explosions.remove(i);
+            }
+        }
 
 
         Collisions();
@@ -129,7 +138,7 @@ public class RenderView extends View {
         projetilList.add(projetil);
     }
     public void createExplosion(float x, float y){
-        explosions.add(new Explosion(10, x, y));
+        explosions.add(new Explosion(50, x, y));
     }
 
     public void updateAndDrawProjetil(Canvas canvas, Paint paint, float deltaTime)
@@ -166,7 +175,7 @@ public class RenderView extends View {
             for(int j =0;j< enemiesController.enemies.size(); j++)
             {
                 if (projetilList.get(i).Collision(enemiesController.enemies.get(j))) {
-                    createExplosion(enemiesController.enemies.get(j).getX(), enemiesController.enemies.get(j).getY());
+                    createExplosion(enemiesController.enemies.get(j).getBoudingBox().centerX(), enemiesController.enemies.get(j).getBoudingBox().centerY());
                     System.out.println(enemiesController.enemies.get(i).getX() + "," + enemiesController.enemies.get(i).getY());
                     enemiesController.enemies.remove(j);
                     projetilList.remove(i);
