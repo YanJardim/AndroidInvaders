@@ -55,7 +55,7 @@ public class RenderView extends View {
         if (GameResources.getInstance().gameObjectList.size() != 0) return;
         createPlayer(getWidth()/2,getHeight()-50, 150);
 
-        enemiesController.initEnemies(new Vector2(getWidth() *0.1f, getHeight() * 0.1f), 3, 5);
+        enemiesController.initEnemies(new Vector2(getWidth() *0.1f, getHeight() * 0.1f), 1, 1);
 
     }
 
