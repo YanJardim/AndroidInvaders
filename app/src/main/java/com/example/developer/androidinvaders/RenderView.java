@@ -55,7 +55,7 @@ public class RenderView extends View {
         if (GameResources.getInstance().gameObjectList.size() != 0) return;
         createPlayer(getWidth()/2,getHeight()-50, 150);
 
-        enemiesController.initEnemies();
+        enemiesController.initEnemies(new Vector2(getWidth() *0.1f, getHeight() * 0.1f), 3, 5);
 
     }
 
@@ -166,8 +166,8 @@ public class RenderView extends View {
             for(int j =0;j< enemiesController.enemies.size(); j++)
             {
                 if (projetilList.get(i).Collision(enemiesController.enemies.get(j))) {
-                    createExplosion(enemiesController.enemies.get(j).getX(), enemiesController.enemies.get(j).getY());
-                    System.out.println(enemiesController.enemies.get(i).getX() + "," + enemiesController.enemies.get(i).getY());
+                    createExplosion(enemiesController.enemies.get(j).getBoudingBox().centerX(), enemiesController.enemies.get(j).getBoudingBox().centerY());
+
                     enemiesController.enemies.remove(j);
                     projetilList.remove(i);
 
@@ -195,6 +195,7 @@ public class RenderView extends View {
         textScore.draw(canvas,paint);
 
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
+        enemiesController.moveEnemies(deltaTime);
         //enemiesController.movementEnemies(deltaTime);
         enemiesController.drawAndUpdate(canvas, paint, deltaTime);
         updateAndDrawExplosions(canvas, paint, deltaTime);

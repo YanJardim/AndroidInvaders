@@ -20,29 +20,31 @@ public class EnemiesController {
     private Vector2 padding;
     private Vector2 enemySize;
     private float timer, changeDirTime;
-    private final int offsetX = 100, changeDirOffest = 70;
-    private boolean canChangeDir, changed;
+    private final int offsetX = 200, offsetY = 100, changeDirOffest = 70;
+    private boolean canChangeDir, changed, dirRight;
     public EnemiesController(Context context, View view){
         enemies = new ArrayList<Enemy>();
         this.context = context;
         this.view = view;
-        padding = new Vector2(100, 5);
+        padding = new Vector2(100, 0);
         enemySize = new Vector2(100, 120);
         timer = 0;
         canChangeDir = false;
         changeDirTime = 0;
         changed = false;
+        dirRight = true;
     }
 
 
-    public void initEnemies(){
+    public void initEnemies(Vector2 offset, int row, int columns){
         float totalW = (view.getWidth() / 2) / enemySize.getX();
         float totalH = view.getHeight() / enemySize.getY();
+
 
         for(int i = 0; i < 3; i++){
             for (int j = 0; j < 5; j++) {
                 //enemies.add(new Enemy("enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, i * 100 + padding.getX(), j * 100 + padding.getY()));
-                enemies.add(new Enemy("Sprites/enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, ((i * enemySize.getX()) + (i * padding.getX())) + offsetX , (j * enemySize.getY()) + (i * padding.getY()), view));
+                enemies.add(new Enemy("Sprites/enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, ((i * enemySize.getX()) + (i * padding.getX())) + offset.getX() , ((j * enemySize.getY()) + (i * padding.getY())) + offset.getY(), view));
             }
         }
         //enemies.add(new Enemy("Sprites/enemy2.png", context.getAssets(), 2, 1, 100, 200));
@@ -53,6 +55,28 @@ public class EnemiesController {
             enemies.get(i).update(deltaTime);
             enemies.get(i).draw(canvas, paint);
         }
+    }
+
+    public void moveEnemies(float deltaTime){
+        timer += deltaTime/1000;
+        if(timer >= 0.2f) {
+            for (int i = 0; i < enemies.size(); i++) {
+                if (!isOnScreen(enemies.get(i))) {
+                    dirRight = false;
+                    swapAllDirections();
+                    moveAllVertical(deltaTime);
+                    timer = 0;
+                    break;
+                }
+            }
+
+        }
+
+        for(int i =0; i < enemies.size(); i++){
+            enemies.get(i).moveHorizontal(deltaTime);
+        }
+
+
     }
 
     public void movementEnemies(float deltaTime){
@@ -88,13 +112,9 @@ public class EnemiesController {
     }
 
     public boolean isOnScreen(GameObject obj){
-        if((obj.getX() + (obj.getWidth())) + changeDirOffest >= view.getWidth()){
+        if(obj.getBoudingBox().right >= view.getWidth() || obj.getBoudingBox().left <= 0){
             return false;
         }
-        else if((obj.getX() - (obj.getWidth()))  <= 0){
-            return false;
-        }
-
 
         return true;
     }
@@ -109,6 +129,11 @@ public class EnemiesController {
     public void moveAllVertical(float deltaTime){
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).moveVertical(deltaTime);
+        }
+    }
+    public void moveAllHorizontal(float deltaTime, boolean right){
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).moveHorizontal(deltaTime);
         }
     }
 
