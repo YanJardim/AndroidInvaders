@@ -23,7 +23,7 @@ public class RenderView extends View {
     private Player player;
 
     public List<Projetil> projetilList = new ArrayList<>();
-    private TextGameObject textScore;
+    private TextGameObject txtScore, txtGameOver;
     public int score = 0;
     public int highPublic = 0;
 
@@ -69,7 +69,7 @@ public class RenderView extends View {
             }
         }
 
-        textScore.text = "Score: " + score;
+        txtScore.setText("Score: " + score);
 
         for(int i =0; i<explosions.size();i++)
         {
@@ -103,15 +103,25 @@ public class RenderView extends View {
         timer += deltaTime;
         canvas.drawRGB(0,0,0);
 
-        if(posDeathTimer >= 2)
+        if(posDeathTimer >= 2) {
+            int lastScore = ScoreManager.getInstance().loadScore(context);
+            if(score > lastScore) {
+                ScoreManager.getInstance().saveScore(context, score);
+            }
+            txtGameOver.setText(ScoreManager.getInstance().loadScore(context) + "");
+            txtGameOver.setX(txtGameOver.getCenter(canvas, paint).getX());
+            txtGameOver.setY(txtGameOver.getCenter(canvas, paint).getY());
+
+            txtGameOver.draw(canvas, paint);
             return;
+        }
 
 
         Update(deltaTime);
 
 
-        textScore.update(deltaTime);
-        textScore.draw(canvas,paint);
+        txtScore.update(deltaTime);
+        txtScore.draw(canvas,paint);
 
         GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
 
@@ -134,12 +144,11 @@ public class RenderView extends View {
     }
 
     public void initTexts(){
-        textScore = new TextGameObject();
+        txtScore = new TextGameObject("Score: ", Color.WHITE, 50, new Vector2(50, 50));
 
-        textScore.color = Color.YELLOW;
-        textScore.size = 50;
-        textScore.x = 50;
-        textScore.y = 50;
+        txtGameOver = new TextGameObject("Game Over", Color.WHITE, 100, new Vector2((getWidth() / 2),
+                getHeight() / 2));
+
     }
 
     public void setInputs()

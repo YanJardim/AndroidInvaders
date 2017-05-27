@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 
 /**
@@ -27,11 +29,14 @@ public class ScoreManager {
 
     private int score;
     private final String path = "Score.ani";
-    public void saveScore(Context context){
-        byte[] bytes = ByteBuffer.allocate(4).putInt(score).array();
+    public void saveScore(Context context, int score){
+        this.score = score;
+        System.out.println(score);
         try {
             FileOutputStream outputStream = context.openFileOutput(path, Context.MODE_PRIVATE);
-            outputStream.write(bytes);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(score);
+            objectOutputStream.close();
             outputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -44,17 +49,18 @@ public class ScoreManager {
         int result = 0;
         try {
             FileInputStream inputStream = context.openFileInput(path);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-            String total = "";
-            while((line = reader.readLine()) != null){
-                total += (line);
-            }
-            result = Integer.parseInt(total);
-            reader.readLine();
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            int aux = (int) objectInputStream.readObject();
+
+            objectInputStream.close();
+            inputStream.close();
+
+            return aux;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return result;
