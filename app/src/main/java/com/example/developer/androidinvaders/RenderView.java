@@ -1,9 +1,12 @@
 package com.example.developer.androidinvaders;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
@@ -32,7 +35,8 @@ public class RenderView extends View {
 
     long last_time = System.nanoTime();
 
-    public RenderView(Context context) {
+    public RenderView(Context context)
+    {
         super(context);
         this.context = context;
 
@@ -40,6 +44,8 @@ public class RenderView extends View {
         initTexts();
 
         enemiesController = new EnemiesController(context, this);
+
+        SoundManager.getInstance().loadSounds(context,"Sounds/Shoot.mp3","Sounds/Hit.mp3", "Sounds/Dead.mp3");
 
     }
 
@@ -219,6 +225,8 @@ public class RenderView extends View {
         projectile.y = player.y;
         projectile.name = "Projetil";
 
+        SoundManager.getInstance().getSound("Sounds/Shoot.mp3").play(1,0.5f,0.5f,0,0,1);
+
         projetilList.add(projectile);
     }
     public void createExplosion(float x, float y){
@@ -272,6 +280,9 @@ public class RenderView extends View {
                     projetilList.remove(i);
 
                     score++;
+
+                    SoundManager.getInstance().getSound("Sounds/Hit.mp3").play(1,0.7f,0.7f,0,0,1);
+
                     return;
                 }
 
@@ -287,6 +298,7 @@ public class RenderView extends View {
                 createExplosion(player.getBoudingBox().centerX(), player.getBoudingBox().centerY());
                 enemiesController.enemies.remove(j);
                 player.setDead(true);
+                SoundManager.getInstance().getSound("Sounds/Dead.mp3");
                 return;
             }
 

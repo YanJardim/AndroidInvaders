@@ -6,6 +6,9 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.provider.MediaStore;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by yan on 25/05/2017.
  */
@@ -21,29 +24,36 @@ public class SoundManager {
         return instance;
     }
 
+    public HashMap<String, SoundPool> hashSound = new HashMap<String,SoundPool>();
 
-    public void PlaySound(Context context, String audioName){
-        //SoundPool pool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-    }
-
-    public void playSFX(Context context, String sfxName)
+    public void loadSounds(Context context, String... audioName)
     {
-        //NÃO FUNFA AINDA//
-        SoundPool newSFX = null;
-        int soundEffect = 0;
-        try {
+        try
+        {
+            for(int i =0; i< audioName.length; i++)
+            {
+                SoundPool newSoundPool = new SoundPool(20,AudioManager.STREAM_MUSIC,0);
+                AssetFileDescriptor descriptormp3 = context.getAssets().openFd(audioName[i]);
+                newSoundPool.load(descriptormp3, 1);
+                hashSound.put(audioName[i],newSoundPool);
+            }
 
-            newSFX = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
-            AssetFileDescriptor descriptorSFX = context.getAssets().openFd(sfxName);
-
-            soundEffect = newSFX.load(descriptorSFX, 1);
-            System.out.println(newSFX);
         }catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        newSFX.play(soundEffect,1,1,0,0,1);
+
+    }
+
+    public SoundPool getSound(String AudioName)
+    {
+        if(hashSound.containsKey(AudioName))
+        {
+            return hashSound.get(AudioName);
+        }
+
+        return null;
     }
 
 }
