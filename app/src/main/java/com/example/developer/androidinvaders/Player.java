@@ -1,6 +1,5 @@
 package com.example.developer.androidinvaders;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.view.View;
 
@@ -13,12 +12,13 @@ public class Player extends ImageGameObject
     public final float speed = 0.5f;
     public  float move = 0;
     private View view;
-
+    private boolean isDead;
     public Player(String file, AssetManager manager, View view)
     {
         this.view = view;
         loadImage(file,manager);
-
+        setTag("Player");
+        setDead(false);
     }
 
     @Override
@@ -34,6 +34,14 @@ public class Player extends ImageGameObject
         {
             x = 0 + width/2;
         }
+    }
 
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 }

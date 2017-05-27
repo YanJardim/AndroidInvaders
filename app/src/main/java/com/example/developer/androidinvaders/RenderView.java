@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by developer on 03/04/17.
@@ -18,7 +17,7 @@ public class RenderView extends View {
     private Paint paint = new Paint();
     private float startTime = 0;
     private Context context;
-    private float timer = 0;
+    private float timer = 0, posDeathTimer = 0;
     private final int timeProjetilSpawn = 350;
 
     private Player player;
@@ -35,20 +34,10 @@ public class RenderView extends View {
 
     public RenderView(Context context) {
         super(context);
-
-
         this.context = context;
 
-        inputs();
-
-        textScore = new TextGameObject();
-
-        textScore.color = Color.YELLOW;
-        textScore.size = 50;
-        textScore.x = 50;
-        textScore.y = 50;
-
-        //GameResources.getInstance().addObject(textScore);
+        setInputs();
+        initTexts();
 
         enemiesController = new EnemiesController(context, this);
 
@@ -66,10 +55,18 @@ public class RenderView extends View {
     public void Update(float deltaTime)
     {
 
-        if(timer >= timeProjetilSpawn)
-        {
-            createProjetil();
-            timer = 0;
+        if(player.isDead()) {
+            posDeathTimer += deltaTime /1000;
+            if(posDeathTimer >= 2)
+                return;
+        }
+
+        if(!player.isDead()) {
+
+            if (timer >= timeProjetilSpawn) {
+                createProjetil();
+                timer = 0;
+            }
         }
 
         textScore.text = "Score: " + score;
@@ -95,7 +92,57 @@ public class RenderView extends View {
         Collisions();
     }
 
-    public void inputs()
+    @Override
+    public void draw(Canvas canvas)
+    {
+        super.draw(canvas);
+        long time = System.nanoTime();
+        float deltaTime = ((time - last_time) / 1000000);
+        //float deltaTime = (System.nanoTime() - startTime) / 1000000;
+        //deltaTime = 1;
+        timer += deltaTime;
+        canvas.drawRGB(0,0,0);
+
+        if(posDeathTimer >= 2)
+            return;
+
+
+        Update(deltaTime);
+
+
+        textScore.update(deltaTime);
+        textScore.draw(canvas,paint);
+
+        GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
+
+        enemiesController.moveEnemies(deltaTime);
+        enemiesController.drawAndUpdate(canvas, paint, deltaTime);
+
+
+        updateAndDrawExplosions(canvas, paint, deltaTime);
+
+        if(!player.isDead()) {
+            updateAndDrawProjetil(canvas,paint,deltaTime);
+            player.update(deltaTime);
+            player.draw(canvas, paint);
+        }
+
+        //showColliders(canvas, paint);
+
+        last_time= time;
+        invalidate();
+    }
+
+    public void initTexts(){
+        textScore = new TextGameObject();
+
+        textScore.color = Color.YELLOW;
+        textScore.size = 50;
+        textScore.x = 50;
+        textScore.y = 50;
+    }
+
+    public void setInputs()
     {
         setOnTouchListener(new OnTouchListener() {
             @Override
@@ -134,20 +181,20 @@ public class RenderView extends View {
         spaceShip.y = y;
         spaceShip.name = "SpaceShip";
         player = spaceShip;
-        GameResources.getInstance().addObject(spaceShip);
+        //GameResources.getInstance().addObject(spaceShip);
     }
 
     public void createProjetil()
     {
-        Projetil projetil = new Projetil("Sprites/Projetil.png", context.getAssets(), this);
+        Projetil projectile = new Projetil("Sprites/Projetil.png", context.getAssets(), this, "PlayerProjetil");
 
         float ratio = ScreenUtils.getScaleRelativeByScreen(getWidth(), getHeight(), 0.025f);
-        projetil.bitmap = projetil.scale(projetil.bitmap,ratio,true);
-        projetil.x = player.x;
-        projetil.y = player.y;
-        projetil.name = "Projetil";
+        projectile.bitmap = projectile.scale(projectile.bitmap,ratio,true);
+        projectile.x = player.x;
+        projectile.y = player.y;
+        projectile.name = "Projetil";
 
-        projetilList.add(projetil);
+        projetilList.add(projectile);
     }
     public void createExplosion(float x, float y){
         explosions.add(new Explosion(50, x, y));
@@ -182,12 +229,18 @@ public class RenderView extends View {
 
     public void Collisions()
     {
+        projectilAndEnemiesCollision();
+        playerAndEnemiesCollision();
+    }
+
+    public void projectilAndEnemiesCollision(){
         for(int i =0; i< projetilList.size();i++)
         {
             for(int j =0;j< enemiesController.enemies.size(); j++)
             {
                 if (projetilList.get(i).Collision(enemiesController.enemies.get(j))) {
-                    createExplosion(enemiesController.enemies.get(j).getBoudingBox().centerX(), enemiesController.enemies.get(j).getBoudingBox().centerY());
+                    createExplosion(enemiesController.enemies.get(j).getBoudingBox().centerX(),
+                            enemiesController.enemies.get(j).getBoudingBox().centerY());
 
                     enemiesController.enemies.remove(j);
                     enemiesController.changeEnemiesSpeed();
@@ -201,35 +254,22 @@ public class RenderView extends View {
         }
     }
 
+    public void playerAndEnemiesCollision(){
 
-    @Override
-    public void draw(Canvas canvas)
-    {
-        super.draw(canvas);
-        long time = System.nanoTime();
-        float deltaTime = ((time - last_time) / 1000000);
-        //float deltaTime = (System.nanoTime() - startTime) / 1000000;
-        //deltaTime = 1;
-        timer += deltaTime;
-        canvas.drawRGB(0,0,0);
+        for(int j =0;j< enemiesController.enemies.size(); j++)
+        {
+            if (player.Collision(enemiesController.enemies.get(j))) {
+                createExplosion(player.getBoudingBox().centerX(), player.getBoudingBox().centerY());
+                enemiesController.enemies.remove(j);
+                player.setDead(true);
+                return;
+            }
 
-        Update(deltaTime);
-        updateAndDrawProjetil(canvas,paint,deltaTime);
+        }
 
-        textScore.update(deltaTime);
-        textScore.draw(canvas,paint);
-
-        GameResources.getInstance().updateAndDraw(deltaTime, canvas, paint);
-        enemiesController.moveEnemies(deltaTime);
-        //enemiesController.movementEnemies(deltaTime);
-        enemiesController.drawAndUpdate(canvas, paint, deltaTime);
-        updateAndDrawExplosions(canvas, paint, deltaTime);
-
-        //showColliders(canvas, paint);
-
-        last_time= time;
-        invalidate();
     }
+
+
 
     public void showColliders(Canvas canvas, Paint paint){
         for(int i =0;i< enemiesController.enemies.size();i++)

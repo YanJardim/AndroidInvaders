@@ -19,6 +19,8 @@ public abstract class GameObject {
     protected double angle = 0;
     protected float speed = 0;
     protected String name = "";
+    private String tag;
+
 
     public Rect getBoudingBox()
     {
@@ -119,5 +121,14 @@ public abstract class GameObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

@@ -14,10 +14,11 @@ public class Projetil extends ImageGameObject
     public final float speed = 1;
     private View view;
 
-    public Projetil(String file, AssetManager manager, View view)
+    public Projetil(String file, AssetManager manager, View view, String tag)
     {
         this.view = view;
         loadImage(file,manager);
+        setTag(tag);
     }
 
     @Override
