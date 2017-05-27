@@ -28,6 +28,8 @@ public class RenderView extends View {
     public int score = 0;
     public int highPublic = 0;
 
+    private long last_time = System.nanoTime();
+
     private EnemiesController enemiesController;
     private List<Explosion> explosions = new ArrayList<>();
     public RenderView(Context context) {
@@ -193,8 +195,10 @@ public class RenderView extends View {
     public void draw(Canvas canvas)
     {
         super.draw(canvas);
-        float deltaTime = (System.nanoTime() - startTime) / 1000000;
-        deltaTime = 1;
+        long time = System.nanoTime();
+        float deltaTime = ((time - last_time) / 1000000);
+        //float deltaTime = (System.nanoTime() - startTime) / 1000000;
+        //deltaTime = 1;
         timer += deltaTime;
         canvas.drawRGB(0,0,0);
 
@@ -212,7 +216,8 @@ public class RenderView extends View {
 
         showColliders(canvas, paint);
 
-        startTime = System.nanoTime();
+
+        last_time= time;
         invalidate();
     }
 
