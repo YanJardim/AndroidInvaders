@@ -36,17 +36,19 @@ public class EnemiesController {
     }
 
 
-    public void initEnemies(Vector2 offset, int row, int columns){
+    public void initEnemies(Vector2 offset, int rows, int columns){
         float totalW = (view.getWidth() / 2) / enemySize.getX();
         float totalH = view.getHeight() / enemySize.getY();
-        row = row >= 4 ? 4 : row;
-        columns = columns >= 4 ? 4 : columns;
-        amountEnemies = new Vector2(row, columns);
+        rows = rows >= 6 ? 6 : rows;
+        columns = columns >= 3 ? 3 : columns;
+        amountEnemies = new Vector2(rows, columns);
 
-        for(int i = 0; i < row; i++){
-            for (int j = 0; j < columns; j++) {
+        for(int i = 0; i < columns; i++){
+            for (int j = 0; j < rows; j++) {
                 //enemies.add(new Enemy("enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, i * 100 + padding.getX(), j * 100 + padding.getY()));
-                enemies.add(new Enemy("Sprites/enemy" + (j + 2) + ".png", context.getAssets(), 2, 1, ((i * enemySize.getX()) + (i * padding.getX())) + offset.getX() , ((j * enemySize.getY()) + (i * padding.getY())) + offset.getY(), view));
+                enemies.add(new Enemy("Sprites/enemy" + (j + 2) + ".png", context.getAssets(), 2, 1,
+                        ((i * enemySize.getX()) + (i * padding.getX())) + offset.getX() ,
+                        ((j * enemySize.getY()) + (i * padding.getY())) + offset.getY(), view));
             }
         }
         //enemies.add(new Enemy("Sprites/enemy2.png", context.getAssets(), 2, 1, 100, 200));

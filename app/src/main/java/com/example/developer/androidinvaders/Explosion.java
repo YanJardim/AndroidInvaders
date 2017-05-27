@@ -11,21 +11,28 @@ public class Explosion {
     public static final int ALIVE = 0;
     public static final int DEAD = 1;
 
+
+
     Particle[] particles;
 
     public int currentState = DEAD;
 
     int tamanho = 0;
 
+    float currentLife = 0;
+
     public Explosion(int amountOfParticles, float x, float y){
-        loadParticles(10, x, y);
+        loadParticles(amountOfParticles, x, y);
     }
 
     public boolean isAlive(){
         return currentState == ALIVE;
     }
-    public boolean isDead(){
-        return currentState == DEAD;
+
+    public boolean isDead()
+    {
+
+            return currentLife >= particles[0].tempoDeVida;
     }
 
 
@@ -41,7 +48,10 @@ public class Explosion {
     }
 
     public void update(float deltaTime) {
-        if(isAlive()){
+        if(isAlive())
+        {
+            currentLife += deltaTime / 1000;
+
             boolean newState = true;
             for(int i = 0; i< particles.length; i++){
                 if(particles[i].isAlive()){
@@ -52,6 +62,7 @@ public class Explosion {
             if(newState){
                 currentState = DEAD;
             }
+
         }
     }
 
