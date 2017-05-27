@@ -115,4 +115,12 @@ public class EnemiesController {
         }
     }
 
+    public void changeEnemiesSpeed(){
+        if(enemies.size() <= 0) return;
+        float currentSpeed = enemies.get(0).getSpeed();
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).setSpeed(currentSpeed + (currentSpeed * 0.15f));
+        }
+    }
+
 }

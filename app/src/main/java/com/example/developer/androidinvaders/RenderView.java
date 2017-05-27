@@ -19,8 +19,8 @@ public class RenderView extends View {
     private float startTime = 0;
     private Context context;
     private float timer = 0;
-    private final int timeProjetilSpawn = 1000;
-    private float maxTimer = timeProjetilSpawn;
+    private final int timeProjetilSpawn = 350;
+
     private Player player;
 
     public List<Projetil> projetilList = new ArrayList<>();
@@ -28,13 +28,14 @@ public class RenderView extends View {
     public int score = 0;
     public int highPublic = 0;
 
-    private long last_time = System.nanoTime();
-
     private EnemiesController enemiesController;
     private List<Explosion> explosions = new ArrayList<>();
+
+    long last_time = System.nanoTime();
+
     public RenderView(Context context) {
         super(context);
-        startTime = System.nanoTime();
+
 
         this.context = context;
 
@@ -65,10 +66,10 @@ public class RenderView extends View {
     public void Update(float deltaTime)
     {
 
-        if(timer >= maxTimer)
+        if(timer >= timeProjetilSpawn)
         {
-            maxTimer += timeProjetilSpawn;
             createProjetil();
+            timer = 0;
         }
 
         textScore.text = "Score: " + score;
@@ -80,6 +81,15 @@ public class RenderView extends View {
                 explosions.remove(i);
             }
         }
+
+       /* if(enemiesController.enemies.size() == 0){
+
+            enemiesController.enemies.initEnemies(new Vector2(getWidth() *0.1f,
+                    getHeight() * 0.1f),
+                    (int)enemiesController.amountEnemies.getX() + 1,
+                    (int)enemiesController.amountEnemies.getY() +1);
+
+        }*/
 
 
         Collisions();
@@ -180,6 +190,7 @@ public class RenderView extends View {
                     createExplosion(enemiesController.enemies.get(j).getBoudingBox().centerX(), enemiesController.enemies.get(j).getBoudingBox().centerY());
 
                     enemiesController.enemies.remove(j);
+                    enemiesController.changeEnemiesSpeed();
                     projetilList.remove(i);
 
                     score++;

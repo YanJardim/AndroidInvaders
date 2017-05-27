@@ -1,11 +1,8 @@
 package com.example.developer.androidinvaders;
 
 import android.content.res.AssetManager;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.provider.Settings;
 import android.view.View;
 
 /**
@@ -19,7 +16,8 @@ public class Enemy extends AnimatedGameObject {
     private int maxIndex, currentIndex;
     private float timer, maxTime;
     public boolean rightDir;
-    private float speed, speedY;
+    private float speed;
+    private float speedY;
 
     public Enemy(String filename, AssetManager assetManager,int framesW,int framesH, float x, float y, View view){
         loadAnimation(filename, assetManager, framesW, framesH);
@@ -35,9 +33,8 @@ public class Enemy extends AnimatedGameObject {
         float ratio = ScreenUtils.getScaleRelativeByScreen(view.getWidth(), view.getHeight(), 0.1f);
 
         scaleAllFrames(ratio, true);
-        speed = 0.2f;
-        speedY = 10;
-
+        setSpeed(0.05f);
+        setSpeedY(5);
     }
     @Override
     public void update(float deltaTime){
@@ -46,12 +43,12 @@ public class Enemy extends AnimatedGameObject {
     }
 
     public void moveHorizontal(float deltaTime){
-        if(rightDir) x+=speed * deltaTime;
-        else x-=speed * deltaTime;
+        if(rightDir) x+= getSpeed() * deltaTime;
+        else x-= getSpeed() * deltaTime;
     }
 
     public void moveVertical(float deltaTime){
-        y += speedY * deltaTime;
+        y += getSpeedY() * deltaTime;
     }
 
     public void swapDirection(){
@@ -66,6 +63,26 @@ public class Enemy extends AnimatedGameObject {
         }
         return false;
     }
+
+    @Override
+    public float getSpeed() {
+        return speed;
+    }
+
+    @Override
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public float getSpeedY() {
+        return speedY;
+    }
+
+    public void setSpeedY(float speedY) {
+        this.speedY = speedY;
+    }
+
+
 
     //@Override
     /*public void draw(Canvas canvas, Paint paint){
