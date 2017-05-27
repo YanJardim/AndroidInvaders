@@ -225,7 +225,7 @@ public class RenderView extends View {
         enemiesController.drawAndUpdate(canvas, paint, deltaTime);
         updateAndDrawExplosions(canvas, paint, deltaTime);
 
-        showColliders(canvas, paint);
+        //showColliders(canvas, paint);
 
         last_time= time;
         invalidate();
