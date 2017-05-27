@@ -13,6 +13,10 @@ public class GameResources {
     private static GameResources ourInstance = new GameResources();
 
     public static GameResources getInstance() {
+        if(ourInstance == null){
+            ourInstance = new GameResources();
+        }
+
         return ourInstance;
     }
 

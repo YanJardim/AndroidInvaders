@@ -216,7 +216,6 @@ public class RenderView extends View {
 
         showColliders(canvas, paint);
 
-
         last_time= time;
         invalidate();
     }
