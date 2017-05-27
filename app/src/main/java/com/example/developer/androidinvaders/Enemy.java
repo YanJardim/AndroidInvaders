@@ -33,7 +33,7 @@ public class Enemy extends AnimatedGameObject {
         float ratio = ScreenUtils.getScaleRelativeByScreen(view.getWidth(), view.getHeight(), 0.1f);
 
         scaleAllFrames(ratio, true);
-        setSpeed(0.3f);
+        setSpeed(0.2f);
         setSpeedY(10);
         setTag("Enemy");
     }

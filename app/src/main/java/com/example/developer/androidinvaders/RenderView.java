@@ -23,7 +23,7 @@ public class RenderView extends View {
     private Player player;
 
     public List<Projetil> projetilList = new ArrayList<>();
-    private TextGameObject txtScore, txtGameOver;
+    private TextGameObject txtScore, txtGameOver, txtScoreGameOver,txtHighScore;
     public int score = 0;
     public int highPublic = 0;
 
@@ -105,14 +105,28 @@ public class RenderView extends View {
 
         if(posDeathTimer >= 2) {
             int lastScore = ScoreManager.getInstance().loadScore(context);
+
             if(score > lastScore) {
                 ScoreManager.getInstance().saveScore(context, score);
             }
-            txtGameOver.setText(ScoreManager.getInstance().loadScore(context) + "");
-            txtGameOver.setX(txtGameOver.getCenter(canvas, paint).getX());
+
+
+            txtHighScore.setText("HighScore: " + ScoreManager.getInstance().loadScore(context));
+            txtHighScore.setX(txtHighScore.getCenter(canvas, paint).getX()-10);
+            txtHighScore.setY(txtHighScore.getCenter(canvas, paint).getY()+50);
+
+            txtHighScore.draw(canvas, paint);
+            txtGameOver.setText("GameOver");
+            txtGameOver.setX(txtGameOver.getCenter(canvas, paint).getX()-110);
             txtGameOver.setY(txtGameOver.getCenter(canvas, paint).getY());
 
-            txtGameOver.draw(canvas, paint);
+            txtScoreGameOver.setText("Current Score: " + score);
+            txtScoreGameOver. setX(txtScoreGameOver.getCenter(canvas, paint).getX() + 50);
+            txtScoreGameOver.setY(txtScoreGameOver.getCenter(canvas,paint).getY()+ 100);
+
+
+            txtScoreGameOver.draw(canvas,paint);
+            txtGameOver.draw(canvas,paint);
             return;
         }
 
@@ -146,9 +160,12 @@ public class RenderView extends View {
     public void initTexts(){
         txtScore = new TextGameObject("Score: ", Color.WHITE, 50, new Vector2(50, 50));
 
-        txtGameOver = new TextGameObject("Game Over", Color.WHITE, 100, new Vector2((getWidth() / 2),
+        txtGameOver = new TextGameObject("Game Over", Color.RED, 100, new Vector2((getWidth() / 2),
                 getHeight() / 2));
 
+        txtHighScore = new TextGameObject("HighScore", Color.WHITE, 50, new Vector2(getWidth() / 2,(getHeight() /2)));
+
+        txtScoreGameOver =  new TextGameObject("Current Score: ", Color.WHITE, 30, new Vector2(getWidth()/2,getHeight()/2));
     }
 
     public void setInputs()
@@ -190,7 +207,6 @@ public class RenderView extends View {
         spaceShip.y = y;
         spaceShip.name = "SpaceShip";
         player = spaceShip;
-        //GameResources.getInstance().addObject(spaceShip);
     }
 
     public void createProjetil()
