@@ -15,7 +15,9 @@ public class Score implements Serializable{
         score = 0;
         name = "AAA";
     }
-
+    public Score(int score){
+        this.score = score;
+    }
     public int getScore() {
         return score;
     }

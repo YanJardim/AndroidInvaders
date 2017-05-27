@@ -18,7 +18,7 @@ public class Player extends ImageGameObject
         this.view = view;
         loadImage(file,manager);
         setTag("Player");
-        setDead(true);
+        setDead(false);
     }
 
     @Override

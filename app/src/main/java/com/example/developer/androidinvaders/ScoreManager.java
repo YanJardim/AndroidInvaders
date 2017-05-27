@@ -28,7 +28,7 @@ public class ScoreManager {
 
         return ourInstance;
     }
-
+    private final int maxScores = 5;
     private final String fileName = "Score.ani";
     public void saveScore(Context context, Score score){
 
@@ -36,15 +36,20 @@ public class ScoreManager {
         List<Score> scores = loadScores(context);
         if(scores == null) scores = new ArrayList<Score>();
         scores.add(score);
-        /*Collections.sort(scores, new Comparator<Score>() {
+        Collections.sort(scores, new Comparator<Score>() {
             @Override
             public int compare(Score o1, Score o2) {
                 if(o1.getScore() == o2.getScore())
                     return 0;
-                return o1.getScore() < o2.getScore() ? -1 : 1;
+                return o1.getScore() < o2.getScore() ? 1 : -1;
             }
-        });*/
+        });
 
+        if(scores.size() > maxScores){
+            for (int i = maxScores - 1; i < scores.size(); i++){
+                scores.remove(i);
+            }
+        }
 
         try {
 
@@ -97,7 +102,7 @@ public class ScoreManager {
 
         int highScore = 0;
         for (Score s: scores) {
-            System.out.println(s.getScore() + " - " + highScore);
+            //System.out.println(s.getScore() + " - " + highScore);
             if(s.getScore() > highScore)
                 highScore = s.getScore();
         }
