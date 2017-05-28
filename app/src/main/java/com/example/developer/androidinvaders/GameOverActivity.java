@@ -24,6 +24,8 @@ public class GameOverActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_game_over);
 
+
+        SoundManager.getInstance().loadSounds(getBaseContext(), "Sounds/Select.mp3");
         setComponents(decor);
         setFonts();
 
@@ -50,6 +52,7 @@ public class GameOverActivity extends AppCompatActivity {
     public void startGame(View view)
     {
         Intent gameplay = new Intent().setClass(view.getContext(), MainActivity.class);
+        SoundManager.getInstance().playMP3("Select", 0.7f);
         view.getContext().startActivity(gameplay);
     }
 
@@ -57,12 +60,14 @@ public class GameOverActivity extends AppCompatActivity {
         ScoreManager.getInstance().getScore().setName(inptName.getText().toString());
         ScoreManager.getInstance().saveScore(view.getContext());
 
+        SoundManager.getInstance().playMP3("Select", 0.7f);
         btnSave.setVisibility(View.GONE);
         inptName.setVisibility(View.GONE);
     }
 
     public void showRankings(View view){
         Intent rankings = new Intent().setClass(view.getContext(), RankingActivity.class);
+        SoundManager.getInstance().playMP3("Select", 0.7f);
         view.getContext().startActivity(rankings);
     }
 }

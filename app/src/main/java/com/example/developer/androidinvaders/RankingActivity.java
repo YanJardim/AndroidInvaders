@@ -22,6 +22,8 @@ public class RankingActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_ranking);
 
+        SoundManager.getInstance().loadSounds(getBaseContext(), "Sounds/Select.mp3");
+
         rows = new ArrayList<Row>();
         rows.add(new Row((TextView)findViewById(R.id.txtIndex0),
                 (TextView)findViewById(R.id.txtName0),
@@ -81,11 +83,13 @@ public class RankingActivity extends AppCompatActivity {
     public void startGame(View view)
     {
         Intent gameplay = new Intent().setClass(view.getContext(), MainActivity.class);
+        SoundManager.getInstance().playMP3("Select", 0.7f);
         view.getContext().startActivity(gameplay);
     }
 
     public void resetSave(View view)
     {
+        SoundManager.getInstance().playMP3("Select", 0.7f);
         ScoreManager.getInstance().resetSave(view.getContext());
     }
 

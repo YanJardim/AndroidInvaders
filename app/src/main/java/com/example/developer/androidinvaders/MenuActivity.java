@@ -18,6 +18,8 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_menu);
 
+
+        SoundManager.getInstance().loadSounds(getBaseContext(), "Sounds/Select.mp3");
         TextView txtTitle =(TextView)findViewById(R.id.txtTitle);
         Typeface face= Typeface.createFromAsset(getAssets(), "fonts/Enigma.ttf");
         txtTitle.setTypeface(face);
@@ -27,6 +29,7 @@ public class MenuActivity extends AppCompatActivity {
     public void startGame(View view)
     {
         Intent gameplay = new Intent().setClass(view.getContext(), MainActivity.class);
+        SoundManager.getInstance().playMP3("Select", 0.7f);
 
         view.getContext().startActivity(gameplay);
     }
