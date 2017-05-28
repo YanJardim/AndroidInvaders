@@ -138,7 +138,7 @@ public class RenderView extends View {
 
 
         Update(deltaTime);
-
+        updateAndDrawExplosions(canvas, paint, deltaTime);
 
         txtScore.update(deltaTime);
         txtScore.draw(canvas,paint);
@@ -149,7 +149,7 @@ public class RenderView extends View {
         enemiesController.drawAndUpdate(canvas, paint, deltaTime);
 
 
-        updateAndDrawExplosions(canvas, paint, deltaTime);
+
 
         if(!player.isDead()) {
             updateAndDrawProjetil(canvas,paint,deltaTime);
@@ -225,7 +225,8 @@ public class RenderView extends View {
         projectile.y = player.y;
         projectile.name = "Projetil";
 
-        SoundManager.getInstance().getSound("Sounds/Shoot.mp3").play(1,0.5f,0.5f,0,0,1);
+        SoundManager.getInstance().playMP3("Shoot", 0.5f);
+        //SoundManager.getInstance().getSound("Sounds/Shoot.mp3").play(1,0.5f,0.5f,0,0,1);
 
         projetilList.add(projectile);
     }
@@ -280,8 +281,8 @@ public class RenderView extends View {
                     projetilList.remove(i);
 
                     score++;
-
-                    SoundManager.getInstance().getSound("Sounds/Hit.mp3").play(1,0.7f,0.7f,0,0,1);
+                    SoundManager.getInstance().playMP3("Hit", 0.7f);
+                    //SoundManager.getInstance().getSound("Sounds/Hit.mp3").play(1,0.7f,0.7f,0,0,1);
 
                     return;
                 }
@@ -298,7 +299,8 @@ public class RenderView extends View {
                 createExplosion(player.getBoudingBox().centerX(), player.getBoudingBox().centerY());
                 enemiesController.enemies.remove(j);
                 player.setDead(true);
-                SoundManager.getInstance().getSound("Sounds/Dead.mp3");
+                SoundManager.getInstance().playMP3("Dead", 0.5f);
+                //SoundManager.getInstance().getSound("Sounds/Dead.mp3");
                 return;
             }
 

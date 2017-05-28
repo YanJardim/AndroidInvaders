@@ -46,11 +46,15 @@ public class SoundManager {
 
     }
 
-    public SoundPool getSound(String AudioName)
+    public void playMP3(String audioName, float volume){
+        getSound("Sounds/" + audioName + ".mp3").play(1, volume, volume, 0, 0, 1);
+    }
+
+    public SoundPool getSound(String audioName)
     {
-        if(hashSound.containsKey(AudioName))
+        if(hashSound.containsKey(audioName))
         {
-            return hashSound.get(AudioName);
+            return hashSound.get(audioName);
         }
 
         return null;
