@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/bgColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.developer.androidinvaders.GameOverActivity">
+
+
+    <EditText
+        android:id="@+id/inptName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/buttons"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="false"
+        android:text="Name"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        android:layout_above="@+id/btnSave"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/txtScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        android:text="Score"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/txtScoreValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp"
+        android:layout_below="@+id/txtScore"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnRanking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="46dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_toLeftOf="@+id/txtScoreValue"
+        android:layout_toStartOf="@+id/txtScoreValue"
+        android:backgroundTint="@color/buttons"
+        android:onClick="showRankings"
+        android:text="Rankings" />
+
+
+    <Button
+        android:id="@+id/btnRestart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnRanking"
+        android:layout_alignBottom="@+id/btnRanking"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_toEndOf="@+id/txtScoreValue"
+        android:layout_toRightOf="@+id/txtScoreValue"
+        android:backgroundTint="@color/buttons"
+        android:onClick="startGame"
+        android:text="Restart" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/buttons2"
+        android:text="Save ranking"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/inptName"
+        android:layout_alignEnd="@+id/inptName"
+        android:layout_alignLeft="@+id/inptName"
+        android:onClick="saveRankings"
+        android:layout_alignStart="@+id/inptName" />
+</RelativeLayout>
+
+

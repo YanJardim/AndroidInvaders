@@ -21,6 +21,8 @@ import java.util.List;
 public class ScoreManager {
     private static ScoreManager ourInstance = new ScoreManager();
 
+    private Score score;
+
     public static ScoreManager getInstance() {
         if(ourInstance == null){
             ourInstance = new ScoreManager();
@@ -30,8 +32,13 @@ public class ScoreManager {
     }
     private final int maxScores = 5;
     private final String fileName = "Score.ani";
-    public void saveScore(Context context, Score score){
 
+    public void saveScore(Context context){
+        saveScore(context, this.score);
+    }
+
+    public void saveScore(Context context, Score score){
+        this.setScore(score);
         System.out.println(score.getScore() + " - " + score.getName());
         List<Score> scores = loadScores(context);
         if(scores == null) scores = new ArrayList<Score>();
@@ -115,4 +122,11 @@ public class ScoreManager {
         return file.delete();
     }
 
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
 }

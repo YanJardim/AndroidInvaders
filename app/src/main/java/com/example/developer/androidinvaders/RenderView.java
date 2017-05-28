@@ -1,6 +1,7 @@
 package com.example.developer.androidinvaders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -297,6 +298,8 @@ public class RenderView extends View {
                 enemiesController.enemies.remove(j);
                 player.setDead(true);
                 SoundManager.getInstance().playMP3("Dead", 0.5f);
+                ScoreManager.getInstance().setScore(currentScore);
+                changeSceneToGameOver(this);
                 //SoundManager.getInstance().getSound("Sounds/Dead.mp3");
                 return;
             }
@@ -312,6 +315,12 @@ public class RenderView extends View {
         {
             enemiesController.enemies.get(i).drawRect(canvas,paint);
         }
+    }
+
+    public void changeSceneToGameOver(View view)
+    {
+        Intent gameoverScene = new Intent().setClass(view.getContext(), GameOverActivity.class);
+        view.getContext().startActivity(gameoverScene);
     }
 
 }
