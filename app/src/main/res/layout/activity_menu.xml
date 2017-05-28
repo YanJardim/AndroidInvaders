@@ -14,20 +14,19 @@
 
     <Button
         android:id="@+id/startButton"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@android:style/Widget.DeviceDefault.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="57dp"
-        android:background="@android:drawable/bottom_bar"
-        android:fontFamily="sans-serif"
+        android:backgroundTint="@color/buttons"
         android:onClick="startGame"
         android:text="Start"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="36sp" />
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:layout_marginBottom="66dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/txtTitle"
