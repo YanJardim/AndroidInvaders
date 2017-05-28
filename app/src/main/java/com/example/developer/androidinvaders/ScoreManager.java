@@ -2,15 +2,17 @@ package com.example.developer.androidinvaders;
 
 import android.content.Context;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by yan on 27/05/2017.
@@ -26,18 +28,37 @@ public class ScoreManager {
 
         return ourInstance;
     }
+    private final int maxScores = 5;
+    private final String fileName = "Score.ani";
+    public void saveScore(Context context, Score score){
 
-    private int score;
-    private final String path = "Score.ani";
-    public void saveScore(Context context, int score){
-        this.score = score;
-        System.out.println(score);
+        System.out.println(score.getScore() + " - " + score.getName());
+        List<Score> scores = loadScores(context);
+        if(scores == null) scores = new ArrayList<Score>();
+        scores.add(score);
+        Collections.sort(scores, new Comparator<Score>() {
+            @Override
+            public int compare(Score o1, Score o2) {
+                if(o1.getScore() == o2.getScore())
+                    return 0;
+                return o1.getScore() < o2.getScore() ? 1 : -1;
+            }
+        });
+
+        if(scores.size() > maxScores){
+            for (int i = maxScores - 1; i < scores.size(); i++){
+                scores.remove(i);
+            }
+        }
+
         try {
-            FileOutputStream outputStream = context.openFileOutput(path, Context.MODE_PRIVATE);
+
+            FileOutputStream outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(score);
+            objectOutputStream.writeObject(scores);
             objectOutputStream.close();
             outputStream.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -45,17 +66,23 @@ public class ScoreManager {
         }
     }
 
-    public int loadScore(Context context){
-        int result = 0;
+    public List<Score> loadScores(Context context){
+
         try {
-            FileInputStream inputStream = context.openFileInput(path);
+            FileInputStream inputStream = context.openFileInput(fileName);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            int aux = (int) objectInputStream.readObject();
+            List<Score> scores = (List<Score>) objectInputStream.readObject();
+
+
+            System.out.println("Elements: " + scores.size());
+            for (Score s : scores) {
+                System.out.println(s.getScore());
+            }
 
             objectInputStream.close();
             inputStream.close();
 
-            return aux;
+            return scores;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -63,19 +90,29 @@ public class ScoreManager {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return result;
-    }
-
-    public void addScore(int amount){
-        setScore(getScore() + amount);
+        return null;
     }
 
 
-    public int getScore() {
-        return score;
+    public int getHighScore(Context context){
+        List<Score> scores = loadScores(context);
+
+        if(scores == null)
+            return -1;
+
+        int highScore = 0;
+        for (Score s: scores) {
+            //System.out.println(s.getScore() + " - " + highScore);
+            if(s.getScore() > highScore)
+                highScore = s.getScore();
+        }
+        return  highScore;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public boolean resetSave(Context context){
+        File dir = context.getFilesDir();
+        File file = new File(dir, fileName);
+        return file.delete();
     }
+
 }

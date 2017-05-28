@@ -27,7 +27,7 @@ public class RenderView extends View {
 
     public List<Projetil> projetilList = new ArrayList<>();
     private TextGameObject txtScore, txtGameOver, txtScoreGameOver,txtHighScore;
-    public int score = 0;
+    private Score currentScore;
     public int highPublic = 0;
 
     private EnemiesController enemiesController;
@@ -44,8 +44,9 @@ public class RenderView extends View {
         initTexts();
 
         enemiesController = new EnemiesController(context, this);
-
         SoundManager.getInstance().loadSounds(context,"Sounds/Shoot.mp3","Sounds/Hit.mp3", "Sounds/Dead.mp3");
+        currentScore = new Score();
+        //System.out.println(ScoreManager.getInstance().resetSave(context));
 
     }
 
@@ -75,7 +76,7 @@ public class RenderView extends View {
             }
         }
 
-        txtScore.setText("Score: " + score);
+        txtScore.setText("Score: " + currentScore.getScore());
 
         for(int i =0; i<explosions.size();i++)
         {
@@ -110,14 +111,10 @@ public class RenderView extends View {
         canvas.drawRGB(0,0,0);
 
         if(posDeathTimer >= 2) {
-            int lastScore = ScoreManager.getInstance().loadScore(context);
-
-            if(score > lastScore) {
-                ScoreManager.getInstance().saveScore(context, score);
-            }
+            ScoreManager.getInstance().saveScore(context, currentScore);
 
 
-            txtHighScore.setText("HighScore: " + ScoreManager.getInstance().loadScore(context));
+            txtHighScore.setText("HighScore: " + ScoreManager.getInstance().getHighScore(context));
             txtHighScore.setX(txtHighScore.getCenter(canvas, paint).getX()-10);
             txtHighScore.setY(txtHighScore.getCenter(canvas, paint).getY()+50);
 
@@ -126,7 +123,7 @@ public class RenderView extends View {
             txtGameOver.setX(txtGameOver.getCenter(canvas, paint).getX()-110);
             txtGameOver.setY(txtGameOver.getCenter(canvas, paint).getY());
 
-            txtScoreGameOver.setText("Current Score: " + score);
+            txtScoreGameOver.setText("Current Score: " + currentScore.getScore());
             txtScoreGameOver. setX(txtScoreGameOver.getCenter(canvas, paint).getX() + 50);
             txtScoreGameOver.setY(txtScoreGameOver.getCenter(canvas,paint).getY()+ 100);
 
@@ -280,10 +277,10 @@ public class RenderView extends View {
                     enemiesController.changeEnemiesSpeed();
                     projetilList.remove(i);
 
-                    score++;
-                    SoundManager.getInstance().playMP3("Hit", 0.7f);
-                    //SoundManager.getInstance().getSound("Sounds/Hit.mp3").play(1,0.7f,0.7f,0,0,1);
 
+                    SoundManager.getInstance().playMP3("Hit", 0.7f);
+
+                    currentScore.addScore(1);
                     return;
                 }
 
