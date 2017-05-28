@@ -30,7 +30,7 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     public void setComponents(View view){
-        txtScore =(TextView)findViewById(R.id.txtScore);
+        txtScore =(TextView)findViewById(R.id.txtScore0);
         txtScoreValue =(TextView)findViewById(R.id.txtScoreValue);
         inptName = (EditText) findViewById(R.id.inptName);
         btnSave = (Button) findViewById(R.id.btnSave);
@@ -62,8 +62,7 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     public void showRankings(View view){
-        Intent gameplay = new Intent().setClass(view.getContext(), MainActivity.class);
-
-        view.getContext().startActivity(gameplay);
+        Intent rankings = new Intent().setClass(view.getContext(), RankingActivity.class);
+        view.getContext().startActivity(rankings);
     }
 }

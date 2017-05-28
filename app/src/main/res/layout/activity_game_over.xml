@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/txtScore"
+        android:id="@+id/txtScore0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -47,7 +47,7 @@
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textSize="30sp"
-        android:layout_below="@+id/txtScore"
+        android:layout_below="@+id/txtScore0"
         android:layout_centerHorizontal="true" />
 
     <Button
